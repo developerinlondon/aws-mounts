@@ -19,15 +19,34 @@ KEYDIR=/var/cache/lxc-mount
 . /lib/lsb/init-functions
 
 lxc_start() {
-    mkfs -t ext4 /dev/xvdf
-    mkdir -p /usr/share/lxc
-    mount /dev/xvdf /usr/share/lxc
+    if zpool list | grep -q "no pools available"; then
+        # create and mount the lxc volume
+        zpool create -f lxc /dev/xvdf
+        ln -s /lxc /usr/share/
+
+        # turn on deduplication and compression
+        zfs set dedup=on lxc
+        zfs set compression=on lxc
+
+        # use native snapshots
+        zpool set listsnapshots=on lxc
+
+        echo 'lxc zfs mounted on /usr/share/lxc. Deduplication, compression and native snapshots have been turned on!'
+        # remove it from auto-startup list
+        update-rc.d -f lxc-mount remove
+        .
+    else
+        echo 'zfs already mounted!'
+        echo $(zpool list)
+        .
+    fi
 } # lxc_start
 
 
-lxc_stop() {
-    /bin/umount /usr/share/lxc
 
+lxc_stop() {
+ #   /bin/umount /usr/share/lxc
+    echo 'unmounting is not implemented yet!'
 } # lxc_stop
 
 

@@ -10,15 +10,15 @@ Instructions
 
 1. Launch a server. Make sure that the server has all of the ephemeral mounts specified in /dev/sd[bcde].
 2. Upload and run the __install.sh__ script.
-3. Upload the __boot.sh__ script to __/etc/init.d/ephemeral__.
-4. Change permissions and ownership of the __/etc/init.d/ephemeral__ script.
+3. Upload the __/etc/init.d/ephemereal-mount__ script to __/etc/init.d/__.
+4. Change permissions and ownership of the __/etc/init.d/ephemeral-mount__ script.
 
-	> sudo chown root:root /etc/init.d/ephemeral
-	> sudo chmod 755 /etc/init.d/ephemeral
+	> sudo chown root:root /etc/init.d/ephemeral-mount
+	> sudo chmod 755 /etc/init.d/ephemeral-mount
 
 5. Run the script on startup.
 
-	> sudo update-rc.d ephemeral defaults 00
+	> sudo update-rc.d ephemeral-mount defaults 00
 
 6. Create an AMI from the instance. Make sure the AMI has all of the ephemeral mounts specified in /dev/sd[bcde].
 
